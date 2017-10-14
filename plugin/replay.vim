@@ -55,11 +55,6 @@
 " whether that be the last thing you recorded or the last thing you executed,
 " whichever happened later.
 "
-" Note that the heuristic here will do what you want most of the time, but it is
-" not infallible. For example, you could record into register "q", then play
-" back register "w", and when you hit |<CR>| Replay will execute register "q"
-" rather than "w". This is due to the lack of hooks already mentioned above.
-"
 " As a last resort fallback, if neither a last-recorded nor last-played macro is
 " detected, Replay will attempt to execute the macro in the "q" register, as
 " that is a popular default register choice.
@@ -214,7 +209,15 @@ if exists('g:ReplayLoaded') || &compatible || v:version < 700
 endif
 let g:ReplayLoaded = 1
 
+" Spy on named registers only.
+let g:ReplayNamedRegisters=split('abcdefghijklmnopqrstuvwxyz', '\zs')
+
 nnoremap <expr> <silent> <Plug>(Replay) empty(&buftype) ? ':call replay#repeat_last_macro()<CR>' : '<CR>'
+
+for s:named_register in g:ReplayNamedRegisters
+  exe 'nnoremap <silent> @' . s:named_register . ' :call replay#play_macro("' . s:named_register . '")<cr>'
+endfor
+
 if !hasmapto('<Plug>(Replay)') && maparg('<CR>', 'n') ==# ''
   ""
   " @mapping <Plug>(Replay)

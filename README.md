@@ -22,8 +22,6 @@ Once you've replayed a macro once with <strong>`<CR>`</strong>, you can mash it 
 
 If you then execute a macro from a different register (say, "w"), then hitting <strong>`<CR>`</strong> will repeat that macro instead of the last recorded one. This behavior is based on the notion that you usually want to repeat the last thing you did, whether that be the last thing you recorded or the last thing you executed, whichever happened later.
 
-Note that the heuristic here will do what you want most of the time, but it is not infallible. For example, you could record into register "q", then play back register "w", and when you hit <strong>`<CR>`</strong> Replay will execute register "q" rather than "w". This is due to the lack of hooks already mentioned above.
-
 As a last resort fallback, if neither a last-recorded nor last-played macro is detected, Replay will attempt to execute the macro in the "q" register, as that is a popular default register choice.
 
 ## Installation<a name="replay-installation" href="#user-content-replay-installation"></a>
